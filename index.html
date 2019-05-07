@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Una guía rápida de Docker</title>
+    <meta charset="utf-8">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+        @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+        @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+        body { font-family: 'Droid Serif'; }
+        h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: normal;
+        }
+        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
+        blockquote.twitter-tweet {
+          display: inline-block;
+          font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+          font-size: 12px;
+          font-weight: bold;
+          line-height: 16px;
+          border-color: #eee #ddd #bbb;
+          border-radius: 5px;
+          border-style: solid;
+          border-width: 1px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+          margin: 10px 5px;
+          padding: 0 16px 16px 16px;
+          max-width: 468px;
+        }
+
+        blockquote.twitter-tweet p {
+          font-size: 16px;
+          font-weight: normal;
+          line-height: 20px;
+        }
+
+        blockquote.twitter-tweet a {
+          color: inherit;
+          font-weight: normal;
+          text-decoration: none;
+          outline: 0 none;
+        }
+
+        blockquote.twitter-tweet a:hover,
+        blockquote.twitter-tweet a:focus {
+          text-decoration: underline;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="vendor/remark/remark_theme.css"/>
+</head>
+<body>
+<textarea id="source">
+
+class: center, middle, light
+
+# Ensamble y Meta algoritmos
+## Bagging y Boosting
+
+### Mauricio Collazos
+
+<!--.footnote.left[]-->
+---
+class: center
+[Repositorio en github](https://github.com/ma0c/bagging-and-boosting)
+![https://github.com/ma0c/bagging-and-boosting](img/qr.png)
+
+---
+
+class: center
+# Evaluación de modelos
+![Evaluación de un modelo](img/modelo-venn.png)
+
+---
+class: center
+# Evaluación de modelos
+Medida|Formula
+-|-
+Exactitud| $$\frac{VP+VN}{P+N}$$
+Tasa de error| $$\frac{FP+FN}{P+N}$$
+Sensibilidad| $$\frac{VP}{P}$$
+Especificidad| $$\frac{VN}{N}$$
+Precisión| $$\frac{VP}{VP+VN}$$
+
+---
+# Cómo se prueban los modelos?
+
+- Muestreo aleatorio
+- Validación cruzada
+- Bootstrap
+---
+# Muestreo aleatorio
+
+![holdout](img/holdout.png)
+
+Se divide el conjunto total de datos en un segmento para entretamiento y otro para pruebas, combinaciones comunes son
+dividir en tomar $$2/3$$ para entrenamiento y $$1/3$$ para pruebas o tomar 70% de los datos para
+entrenamiento y 30% para pruebas
+
+
+---
+# Validación cruzada
+![cross_validation](img/cross_validation.png)
+
+Se divide el conjunto total de datos en `k` particiones *sin reemplazo*, para entretar `k` modelos distintos
+
+---
+# Bootstrapping
+![bootstrapping](img/bootstrapping.png)
+
+Se divide el conjunto total de datos en `k` particiones *con reemplazo*, para entretar `k` modelos distintos
+
+</textarea>
+<script src="vendor/remark/remark.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<script>
+    var slideshow = remark.create();
+    // Setup MathJax
+      MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+      });
+
+      MathJax.Hub.Configured();
+</script>
+</body>
+</html>
