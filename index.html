@@ -112,6 +112,103 @@ Se divide el conjunto total de datos en `k` particiones *sin reemplazo*, para en
 
 Se divide el conjunto total de datos en `k` particiones *con reemplazo*, para entretar `k` modelos distintos
 
+---
+# Bootstrap aggregating (Bagging)
+
+```python
+def entrenar_modelos(datos_de_entrenamiento: list, numero_de_bolsas: int):
+    modelos = list()
+    bolsas = dividir_con_reemplazo(datos_de_entrenamiento, numero_de_bolsas)
+    for bolsa in bolsas:
+        nuevo_modelo = entrenar_modelo(bolsa)
+        modelos.append(nuevo_modelo)
+    return modelos
+```
+
+```python
+def evaluar_modelos(datos_de_prueba: list, modelos_entrenados: list):
+    evaluaciones_parciales = list()
+    for modelo in modelos_entrenados:
+        evaluacion = modelo.evaluar(datos_de_prueba)
+        evaluaciones_parciales.append(evaluacion)
+    return promedio(evaluaciones_parciales)
+```
+
+---
+# Bootstrap aggregating (Bagging)
+
+- Bagged Decision Trees
+- Random Forest
+- Extra Trees
+---
+
+# Bootstrap aggregating (Bagging)
+```python
+from sklearn.ensemble import BaggingClassifier
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn.tree import DecisionTreeClassifier
+
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+decision_tree = DecisionTreeClassifier()
+bagging_classifier = BaggingClassifier(base_estimator=decision_tree, n_estimators=100)
+
+model = bagging_classifier.fit(X_train, y_train)
+y_pred=model.predict(X_test)
+metrics.accuracy_score(y_test, y_pred)
+```
+---
+# Boosting
+
+```python
+def entrenar_modelo(datos_de_entrenamiento: list, numero_de_modelos: int):
+    pesos_de_datos = generar_pesos_uniformes(datos_de_entrenamiento)
+    modelos = list()
+    exactitudes = list()
+    for i in range(numero_de_modelos):
+        bolsa = dividir_con_reemplazo_y_peso(datos_de_entrenamiento, numero_de_modelos, pesos_de_datos)
+        nuevo_modelo = entrenar_modelo(bolsa)
+        pesos_de_datos = actualizar_pesos(nuevo_modelo, bolsa)
+        exactitud_modelo = calcular_presicion(nuevo_modelo, bolsa)
+        modelos.append(nuevo_modelo)
+        exactitudes.append(nuevo_modelo)
+    modelo = generar_modelo_con_pesos(modelos, exactitudes)
+    return modelo
+```
+
+---
+# Boosting
+- AdaBoost
+- Stochastic Gradient Boosting
+
+---
+# Boosting
+
+```python
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+from sklearn.tree import DecisionTreeClassifier
+
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+decision_tree = DecisionTreeClassifier()
+bagging_classifier = AdaBoostClassifier(base_estimator=decision_tree, n_estimators=100)
+
+model = bagging_classifier.fit(X_train, y_train)
+y_pred=model.predict(X_test)
+metrics.accuracy_score(y_test, y_pred)
+```
+
 </textarea>
 <script src="vendor/remark/remark.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
