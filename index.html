@@ -115,6 +115,10 @@ Se divide el conjunto total de datos en `k` particiones *con reemplazo*, para en
 ---
 # Bootstrap aggregating (Bagging)
 
+Propuesto en 1994 por Leo Breiman proponiendo dados subconjuntos de la misma distribución,crear una secuencia de
+clasificadores y predictores y generar un concenso para la solución -
+[Ver artículo](https://www.stat.berkeley.edu/~breiman/bagging.pdf)
+
 ```python
 def entrenar_modelos(datos_de_entrenamiento: list, numero_de_bolsas: int):
     modelos = list()
@@ -137,12 +141,14 @@ def evaluar_modelos(datos_de_prueba: list, modelos_entrenados: list):
 ---
 # Bootstrap aggregating (Bagging)
 
+Algunas implementaciones sobre estructuras de árboles
+
 - Bagged Decision Trees
 - Random Forest
 - Extra Trees
 ---
 
-# Bootstrap aggregating (Bagging)
+# Bootstrap aggregating (Bagging) en Python
 ```python
 from sklearn.ensemble import BaggingClassifier
 from sklearn import datasets
@@ -165,6 +171,9 @@ metrics.accuracy_score(y_test, y_pred)
 ---
 # Boosting
 
+Propuesto en 1995 por Freund y Schapire basado en la actualización de pesos LittlestoneWarmuth de subconjuntos de datos
+sobre aprendedores débiles para maximizar la precisión - [Ver artículo](https://www.sciencedirect.com/science/article/pii/S002200009791504X?via%3Dihub)
+
 ```python
 def entrenar_modelo(datos_de_entrenamiento: list, numero_de_modelos: int):
     pesos_de_datos = generar_pesos_uniformes(datos_de_entrenamiento)
@@ -183,11 +192,55 @@ def entrenar_modelo(datos_de_entrenamiento: list, numero_de_modelos: int):
 
 ---
 # Boosting
+
+Algunas implementaciones populares del algoritmo
+
 - AdaBoost
 - Stochastic Gradient Boosting
 
 ---
-# Boosting
+# AdaBoosting
+
+Propuesto en 1999 por Freund y SchapirePresenta una solución práctica a los problemas teóricos del boosting
+[Ver Artículo](https://cseweb.ucsd.edu/~yfreund/papers/IntroToBoosting.pdf)
+
+Dado
+    $$ (x_1, y_1), ... , (x_m,y_m)\ donde\ x_i \in X \ ,\ \  y_i \in Y = \\{ -1, 1 \\} $$
+
+Inicializar $$ D_1(i) = 1/m $$
+
+Desde t = 1 hasta t = T
+
+Entrene un modelo usando $$ D_t $$
+
+Obtenga las hipotesis débiles $$ h_t: X \to \\{ -1,1 \\} $$
+
+---
+
+con el error
+
+$$ \epsilon_{t} = Pr_i \sim D_t [h_t(x_i) \neq y_i] $$
+
+Escoja un
+
+$$ \alpha_t = \frac{1}{2}ln(\frac{1-\epsilon_t}{\epsilon_t}) $$
+
+Actualice:
+
+$$ D_{t+1}(i)=\frac{D_t(i)}{Z_t}\times \\{ \begin{array}{lcc} e^{-\alpha_t} & if & h_t(x_i) = y_i \lor e^{\alpha_t} & if & h_t(x_i) \neq y_i \\  \end{array}    \\}$$
+
+$$ D_{t+1}(i)=\frac{D_t(i) e^{-\alpha_t y_i h_t(x_i)}} {Z_t} $$
+
+Donde  Z_t es un factor de normalización
+
+Fin desde
+
+La hipotesis final
+
+$$ H(x) = sign(\sum_{t=1}^T \alpha_t h_t(x_i)) $$
+
+---
+# AdaBoosting en Python
 
 ```python
 from sklearn.ensemble import AdaBoostClassifier
